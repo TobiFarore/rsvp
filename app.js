@@ -6,7 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const div = document.createElement('div');
     const filterLabel = document.createElement('label');
     const filterCheckBox = document.createElement('input');
+    const options = ['Not Responded', 'Confirmed', 'Declinced'];
 
+    //Checkbox to filter invitees on page
     filterLabel.textContent = "Hide those who haven't responded";
     filterCheckBox.type = 'checkbox';
     div.appendChild(filterLabel);
@@ -16,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
     filterCheckBox.addEventListener('change', (e) => {
         const isChecked = e.target.checked;
         const lis = ul.children;
-       // const li = lis.firstElementChild;
         if (isChecked) {
             
             for(let i = 0; i < lis.length; i++) {
@@ -36,6 +37,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         }
     });
+
+    /**
+     * @returns a new li element with 2 buttons, note area and select element
+     * @param {input} text  
+     */
     
     function createLi (text) {
 
@@ -50,18 +56,31 @@ document.addEventListener('DOMContentLoaded', () => {
             li.appendChild(element);
             return element;
         }
+        /**
+         * @returns a new select element with 3 options from the 'options' array declared above
+         * !currently unable to manipulate the element when selected 
+         */
+
+        function appendToSelectToLi (){
+            const element = document.createElement('select');
+            for (let i=0; i< options.length; i++) {
+                const option = document.createElement('option');
+                option.value = options[i];
+                option.textContent = options[i];
+                element.appendChild(option);
+            } 
+            li.appendChild(element);
+            return element;
+        }
 
         //create list item
         const li = document.createElement('li');
         appendToLi('span', 'textContent', text);
-        const select = document.createElement('select');
-       // appendToLi('select', 'textContent', 'confirm')
-        select.appendChild(createElement('option', 'textContent', 'test'));
-        select.appendChild(createElement('option', 'textContent', 'test2'));
-        li.appendChild(select)
-        appendToLi('textarea', 'placeholder', 'Note');
         appendToLi('button', 'textContent', 'edit');
         appendToLi('button', 'textContent', 'remove');
+        appendToLi('textarea', 'placeholder', 'Note');
+        appendToSelectToLi();
+        
         return li;
 
 
@@ -94,16 +113,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     ul.addEventListener('change', (e) => {
-        const checkbox = e.target;
-        const checked = checkbox.checked;
-        const listLabel = checkbox.parentNode;
-        const listItem = checkbox.parentNode.parentNode;
+        const select = e.target;
+        const listItem = select.parentNode;
         
-        if (checked) {
-            listLabel.childNodes[0].textContent = 'confirmed';
+        if (select) {
             listItem.className = 'responded';
         } else {
-            listLabel.childNodes[0].textContent = 'confirm';
             listItem.className = '';
         }
     });
