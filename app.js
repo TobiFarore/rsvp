@@ -58,7 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         /**
          * @returns a new select element with 3 options from the 'options' array declared above
-         * !currently unable to manipulate the element when selected 
          */
 
         function appendToSelectToLi (){
@@ -113,14 +112,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     ul.addEventListener('change', (e) => {
-        const select = e.target;
+        if ( e.target.tagName === 'SELECT') {
+            const select = e.target;
         const listItem = select.parentNode;
         
-        if (select) {
+        if (select.value != 'Not Responded') {
             listItem.className = 'responded';
         } else {
             listItem.className = '';
         }
+    }
     });
 
     ul.addEventListener('click', (e) => {
